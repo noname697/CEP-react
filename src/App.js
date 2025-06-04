@@ -5,10 +5,23 @@ function App() {
   const [endereco, setEndereco] = useState({});
 
   const manipularEndereco = (evento) => {
-    setEndereco({ cep: evento.target.value });
+    const cep = evento.target.value;
 
-    if(endereco.cep && endereco.cep.length === 8){
-      // obter o CEP da API
+    setEndereco({cep});
+    console.log(cep);
+
+    if (cep && cep.length === 8) {
+      fetch(`https://viacep.com.br/ws/${cep}/json/`)
+        .then((resposta) => resposta.json())
+        .then((dados) => {
+          setEndereco({
+            cep: cep,
+            rua: dados.logradouro,
+            bairro: dados.bairro,
+            cidade: dados.localidade,
+            estado: dados.uf,
+          });
+        });
     }
   };
 
@@ -18,6 +31,9 @@ function App() {
         <input placeholder="Digite o CEP" onChange={manipularEndereco} />
         <ul>
           <li>CEP: {endereco.cep}</li>
+          <li>Bairro: {endereco.bairro}</li>
+          <li>Cidade: {endereco.cidade}</li>
+          <li>Estado: {endereco.estado}</li>
         </ul>
       </header>
     </div>
