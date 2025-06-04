@@ -2,17 +2,22 @@ import { useState } from "react";
 import "./App.css";
 
 function App() {
-  const [cep, setCep] = useState("");
+  const [endereco, setEndereco] = useState({});
+
+  const manipularEndereco = (evento) => {
+    setEndereco({ cep: evento.target.value });
+
+    if(endereco.cep && endereco.cep.length === 8){
+      // obter o CEP da API
+    }
+  };
 
   return (
     <div className="App">
       <header className="App-header">
-        <input
-          placeholder="Digite o CEP"
-          onChange={(e) => setCep(e.target.value)}
-        />
+        <input placeholder="Digite o CEP" onChange={manipularEndereco} />
         <ul>
-          <li>CEP: {cep}</li>
+          <li>CEP: {endereco.cep}</li>
         </ul>
       </header>
     </div>
