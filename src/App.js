@@ -14,13 +14,12 @@ function App() {
       fetch(`https://viacep.com.br/ws/${cep}/json/`)
         .then((resposta) => resposta.json())
         .then((dados) => {
-          setEndereco({
-            cep: cep,
-            rua: dados.logradouro,
+          setEndereco(enderecoAntigo => ({
+            ...enderecoAntigo,
             bairro: dados.bairro,
             cidade: dados.localidade,
-            estado: dados.uf,
-          });
+            estado: dados.uf
+          }));
         });
     }
   };
